@@ -1,11 +1,17 @@
 #!/bin/bash
 
+#check sudo
+if [ "$(id -u)" -ne 0 ]; then
+    echo -e "\033[33mCorrer con SUDO\033[0m"
+    exit
+fi 
+
 #Update
 echo -e "${Green}Actualizando repositorio de Linux......${Color_Off}"
 apt-get update
 
 
-#Install MariaDB
+#Install Apache, Git and MariaDB
 #Install required packages
 
 echo "${Green}Verificando si apache esta instalado.....${Color_Off}"
@@ -25,7 +31,6 @@ else
     echo "Iniciando Servicios apache....."
     systemctl start apache2 
     systemctl enable apache2 
-    systemctl status apache2 
 
 fi
 sleep 3
@@ -36,7 +41,7 @@ sleep 2
 if dpkg --get-selections | grep git; then 
         echo
         echo  "Git instalado" 
-        git -v
+        git --version
         echo
 else
         echo
@@ -53,20 +58,19 @@ sleep 2
 if dpkg --get-selections | grep mariadb-server; then 
 	echo
 	echo  "MariaDB instalado" 
-	mariadb-server -v
+	mariadb --version
 	echo
 else
 	echo
 	echo "Apache no instalado, instalando....."
 	echo
-	apt install mariadb-server -y
+	apt install mariadb -y
     echo
     echo "Iniciando Servicios MariaDB....."
     echo
     systemctl start mariadb 
     systemctl enable mariadb 
-    systemctl status mariadb 
-
+fi
 
 #Configure Database
 
@@ -76,7 +80,7 @@ MariaDB > CREATE USER 'ecomuser'@'localhost' IDENTIFIED BY 'ecompassword';
 MariaDB > GRANT ALL PRIVILEGES ON *.* TO 'ecomuser'@'localhost';
 MariaDB > FLUSH PRIVILEGES;
 
-$Agregar datos a la database ecomdb
+#Agregar datos a la database ecomdb
 #Create the db-load-script.sql
 
 cat > db-load-script.sql <<-EOF
