@@ -79,9 +79,9 @@ echo
 echo -e "${Yellow}Instalando la base de datos y usuarios, estableciendo permisos${Color_off}"
 echo
 sleep 2
-mysql -e "CREATE DATABASE ecomerce;
-	      CREATE USER 'lsmcba'@'localhost' IDENTIFIED BY 'contrasenasegura';
-	      GRANT ALL PRIVILEGES ON *.* TO 'lsmcba'@'localhost';
+mysql -e "CREATE DATABASE ecomdb;
+	      CREATE USER 'ecomuser'@'localhost' IDENTIFIED BY 'ecompassword';
+	      GRANT ALL PRIVILEGES ON *.* TO 'ecomuser'@'localhost';
 	      FLUSH PRIVILEGES;"
 
 echo
@@ -108,10 +108,5 @@ mv /var/www/html/index.html /var/www/html/index.html.bkp
 echo
 echo -e "${Yellow}Actualizando PHP${Color_off}"
 echo
-sudo sed -i 's/192.168.58.101/localhost/g' /var/www/html/index.php
-    <?php
-        $link = mysqli_connect('192.168.56.101', 'lsmcba', 'contrasenasegura', 'ecomerce');
-        if ($link) {
-        $res = mysqli_query($link, "select * from products;");
-        while ($row = mysqli_fetch_assoc($res)) { 
-    ?>
+sudo sed -i 's/172.20.1.101/localhost/g' /var/www/html/index.php
+ 
