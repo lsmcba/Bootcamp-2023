@@ -93,10 +93,14 @@ mysql -e "CREATE DATABASE devopstravel;
 echo
 echo -e "${Yellow}Clonando repositorio de Travel${Color_off}"
 echo
+if [ -d "$repo" ]; then
+    echo "${RED}La carpeta $repo ya existe, eliminando carpeta...${Color_off}"
+    rm -rf $repo
+fi
 git clone -b clase2-linux-bash https://github.com/roxsross/$repo.git 
 cp -r $repo/app-295devops-travel/* /var/www/html
 
-cp -r app-295devops-travel/* /var/www/html/
+cp -r $repo/app-295devops-travel/* /var/www/html/
 mv /var/www/html/index.html /var/www/html/index.html.bkp
 
 echo
