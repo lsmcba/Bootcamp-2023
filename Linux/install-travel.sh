@@ -107,7 +107,7 @@ echo
 echo -e "${Yellow}Agregando datos a la base${Color_off}"
 echo
 sleep 2
-mysql < database/devopstravel.sql
+mysql < $repo/database/devopstravel.sql
 
 
 
