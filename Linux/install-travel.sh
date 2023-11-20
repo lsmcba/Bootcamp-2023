@@ -184,3 +184,6 @@ echo -e "${Yellow}Reiniciando servidor apache...${Color_off}"
 echo
 systemctl reload apache2
 sleep 2
+
+if (curl-I localhost = 200) then -e "${Green}La pagina esta en linea....${Color_off}"
+else echo -e "${Red}La pagina no esta en linea....${Color_off]"
