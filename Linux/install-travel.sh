@@ -25,6 +25,13 @@ if dpkg --get-selections | grep apache2; then
 	apache2ctl -v
         php -v
 	echo
+	if (systemctl is-active apache2 = 0) then echo -e "${Green}El servicio ya esta iniciado...${Color_off}"
+		else echo -e "${RED}El servicio no esta iniciado, iniciando....${Color_Off}"
+			systemctl start apache2
+			systemctl enable apache2
+			echo -e "${Green}El servicio ya esta iniciado....${Color_off}"}
+			echo
+	fi
 else
 	echo
 	echo -e "${Red}Apache no instalado, instalando.....${Color_off}"
@@ -70,6 +77,13 @@ if dpkg --get-selections | grep mariadb-server; then
 	echo  -e "${Green}MariaDB instalado${Color_off}"
 	mariadb --version
 	echo
+	if (systemctl is-active mariadb = 0) then echo -e "${Green}El servicio ya esta iniciado...${Color_off}"
+		else echo -e "${RED}El servicio no esta iniciado, iniciando....${Color_Off}"
+			systemctl start mariadb
+			systemctl enable mariadb
+			echo -e "${Green}El servicio ya esta iniciado....${Color_off}"}
+			echo
+	fi
 else
 	echo
 	echo -e "${Red}Apache no instalado, instalando.....${Color_off}"
@@ -83,6 +97,24 @@ else
     systemctl enable mariadb
 fi
 sleep 2
+
+echo
+echo -e "${Yellow}Verificando si CURL esta instalado.....${Color_Off}"
+echo
+if dpkg --get-selections | grep curl; then
+	echo
+	echo  -e "${Green}CURL instalado${Color_off}"
+	curl --version
+	echo
+else
+	echo
+	echo -e "${Red}CURL no instalado, instalando.....${Color_off}"
+	echo
+	apt install curl -y
+	curl --version 
+fi
+sleep 2
+
 
 echo
 echo -e "${Yellow}Creacion de base de datos....${Color_off}"
