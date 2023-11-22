@@ -187,24 +187,15 @@ sleep 2
 
 #DISCORD="https://discord.com/api/webhooks/1169002249939329156/7MOorDwzym-yBUs3gp0k5q7HyA42M5eYjfjpZgEwmAx1vVVcLgnlSh4TmtqZqCtbupov"
 
-if [ $# -ne 1 ]; then
-  echo "Uso: $0 <ruta_al_repositorio>"
-  exit 1
-fi
+cd "$repo"
 
-# Cambia al directorio del repositorio
-cd "$1"
-
-# Obtiene el nombre del repositorio
 REPO_NAME=$(basename $(git rev-parse --show-toplevel))
-# Obtiene la URL remota del repositorio
 REPO_URL=$(git remote get-url origin)
 WEB_URL="localhost"
-# Realiza una solicitud HTTP GET a la URL
+
 HTTP_STATUS=$(curl -Is "$WEB_URL" | head -n 1)
 
 if [[ "$HTTP_STATUS" == *"200 OK"* ]]; then
-  # Obtén información del repositorio
     DEPLOYMENT_INFO2="Despliegue del repositorio $REPO_NAME: "
     DEPLOYMENT_INFO="La página web $WEB_URL está en línea."
     COMMIT="Commit: $(git rev-parse --short HEAD)"
