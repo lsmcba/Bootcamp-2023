@@ -193,7 +193,7 @@ WEB_URL="localhost"
 
 HTTP_STATUS=$(curl -Is "$WEB_URL" | head -n 1)
 
-if [[ "$HTTP_STATUS" == *"200 OK"* ]]; then
+if [[ "$HTTP_STATUS" == "HTTP/1.1 200 OK" ]]; then
     DEPLOYMENT_INFO2="Despliegue del repositorio $REPO_NAME: "
     DEPLOYMENT_INFO="La página web $WEB_URL está en línea."
     COMMIT="Commit: $(git rev-parse --short HEAD)"
