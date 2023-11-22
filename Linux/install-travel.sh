@@ -185,9 +185,9 @@ echo
 systemctl reload apache2
 sleep 2
 
-#DISCORD="https://discord.com/api/webhooks/1169002249939329156/7MOorDwzym-yBUs3gp0k5q7HyA42M5eYjfjpZgEwmAx1vVVcLgnlSh4TmtqZqCtbupov"
+DISCORD="https://discord.com/api/webhooks/1169002249939329156/7MOorDwzym-yBUs3gp0k5q7HyA42M5eYjfjpZgEwmAx1vVVcLgnlSh4TmtqZqCtbupov"
 
-cd "$repo"
+cd ..
 
 REPO_NAME=$(basename $(git rev-parse --show-toplevel))
 REPO_URL=$(git remote get-url origin)
