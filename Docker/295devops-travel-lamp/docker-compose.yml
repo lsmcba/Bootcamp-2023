@@ -1,0 +1,36 @@
+version: "3"
+services:
+  travel_db:
+    image: mysql:latest
+    environment:
+      - MYSQL_DATABASE: devopstravel
+      - MYSQL_USER: codeuser
+      - MYSQL_PASSWORD:  codepass
+  volumes: 
+    - "./database:/docker-entrypoint-initdb.d"
+  networks: 
+    -travel_lamp
+  www:
+    depends:
+      -travel_db
+    image: httpd:alpine
+    volumes: 
+      - "./:/var/www/html"
+    ports:
+      -80:80
+    networks:
+      - travel_lamp
+  phpmyadmin:
+    depends_on: 
+      -travel_db
+    image: phpmyadmin/phpmyadmin
+    ports: 
+      - 8081:80
+    environment:
+      - PMA_HOST: travel_db
+      - PMA_PORT: 3306
+    networks:
+      - travel_lamp
+networks: 
+  travel_lamp:
+    driver: bridge
