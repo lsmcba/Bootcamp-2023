@@ -3,4 +3,3 @@ __pycache__
 docker-compose.yml
 Dockerfile
 node_modules/
-database/
