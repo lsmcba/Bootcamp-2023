@@ -3,16 +3,12 @@
   services:
     travel_db:
       container_name: travel_db
-      image: mysql:latest
-      environment:
-        - MYSQL_DATABASE=devopstravel
-        - MYSQL_USER=codeuser
-        - MYSQL_PASSWORD=codepass
-        - MYSQL_ROOT_PASSWORD=codepass
-        - MYSQL_ALLOW_EMPTY_PASSWORD=yes
-        - MYSQL_RANDOM_ROOT_PASSWORD=yes
-      volumes: 
-         - "./database:/docker-entrypoint-initdb.d"
+      image: mysql
+      build: 
+        context: ./database
+        dockerfile: Dockerfile
+      ports:
+        - "3306:3306"
       networks: 
           - travel_lamp
     
@@ -20,9 +16,10 @@
       container_name: travel_www
       depends_on: 
         - travel_db
-      image: httpd:alpine
-      volumes: 
-        - ".:/var/www/html"
+      image: httpd
+      build: 
+        context: ./web
+        dockerfile: Dockerfile
       ports:
           - "80:80"
       networks:
@@ -32,12 +29,12 @@
       container_name: travel_phpmyadmin
       depends_on: 
         - travel_db
-      image: phpmyadmin/phpmyadmin
+      image: phpmyadmin
+      build: 
+        context: ./phpmyadmin
+        dockerfile: Dockerfile 
       ports: 
-        - "8081:8081"
-      environment:
-        - PMA_HOST=travel_db
-        - PMA_PORT=3306
+        - "8080:80"
       networks:
         - travel_lamp
   
