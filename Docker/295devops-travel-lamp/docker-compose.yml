@@ -1,25 +1,32 @@
   version: "3.8"
   
   services:
-    travel_db:
+    database:
       container_name: travel_db
       image: mysql
       build: 
         context: ./database
-        dockerfile: Dockerfile
+        dockerfile: dockerfile
+      environment:
+        MYSQL_ROOT_PASSWORD: codepass
+        MYSQL_DATABASE: devopstravel
+        MYSQL_USER: codeuser
+        MYSQL_PASSWORD: codepass
+        MYSQL_ALLOW_EMPTY_PASSWORD: 1
+        MYSQL_RANDOM_ROOT_PASSWORD: 1
       ports:
         - "3306:3306"
       networks: 
           - travel_lamp
     
-    www:
+    web:
       container_name: travel_www
       depends_on: 
-        - travel_db
+        - database
       image: httpd
       build: 
         context: ./web
-        dockerfile: Dockerfile
+        dockerfile: dockerfile
       ports:
           - "80:80"
       networks:
@@ -28,11 +35,11 @@
     phpmyadmin:
       container_name: travel_phpmyadmin
       depends_on: 
-        - travel_db
+        - database
       image: phpmyadmin
       build: 
         context: ./phpmyadmin
-        dockerfile: Dockerfile 
+        dockerfile: dockerfile 
       ports: 
         - "8080:80"
       networks:
