@@ -1,5 +1,7 @@
 FROM httpd:2.4
 
 COPY ./public-html/ /usr/local/apache2/htdocs/
-EXPOSE 80
 CMD sed -i 's/DirectoryIndex index.html/DirectoryIndex index.php index.html/' /usr/local/apache2/conf/httpd.conf && httpd-foreground
+
+RUN apt-get update && apt-get install -y
+RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli

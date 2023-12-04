@@ -1,13 +1,4 @@
 FROM mysql:5.7
 
-ENV MYSQL_ROOT_PASSWORD codepass
-ENV MYSQL_DATABASE devopstravel
-ENV MYSQL_USER codeuser
-ENV MYSQL_PASSWORD codepass
-ENV MYSQL_ALLOW_EMPTY_PASSWORD yes
-ENV MYSQL_RANDOM_ROOT_PASSWORD yes
-
 ADD ./sql-scripts/ /docker-entrypoint-initdb.d/
-
-EXPOSE 3306
 
