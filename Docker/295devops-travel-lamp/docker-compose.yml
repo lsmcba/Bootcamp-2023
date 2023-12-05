@@ -3,7 +3,7 @@
   services:
     database:
       container_name: travel_db
-      image: mysql
+      image: mariadb
       build: 
         context: ./database
         dockerfile: dockerfile
