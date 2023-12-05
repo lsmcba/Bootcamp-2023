@@ -7,13 +7,8 @@
       build: 
         context: ./database
         dockerfile: dockerfile
-      environment:
-        MYSQL_ROOT_PASSWORD: codepass
-        MYSQL_DATABASE: devopstravel
-        MYSQL_USER: codeuser
-        MYSQL_PASSWORD: codepass
-        MYSQL_ALLOW_EMPTY_PASSWORD: 1
-        MYSQL_RANDOM_ROOT_PASSWORD: 1
+      env_file: 
+        - ./database/password.env
       ports:
         - "3306:3306"
       networks: 
@@ -29,6 +24,7 @@
         dockerfile: dockerfile
       ports:
           - "80:80"
+      restart: always
       networks:
         - travel_lamp
     

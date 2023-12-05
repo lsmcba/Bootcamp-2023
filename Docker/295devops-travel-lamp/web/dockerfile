@@ -1,7 +1,8 @@
-FROM httpd:2.4
+FROM php:7.2-apache
 
-COPY ./public-html/ /usr/local/apache2/htdocs/
-CMD sed -i 's/DirectoryIndex index.html/DirectoryIndex index.php index.html/' /usr/local/apache2/conf/httpd.conf && httpd-foreground
+COPY ./public-html/ /var/www/html/
+#RUN sed -i 's/DirectoryIndex index.html/DirectoryIndex index.php index.html/' /usr/local/apache2/conf/httpd.conf
+RUN sed -i 's/""/"codepass"/g' /var/www/html/config.php
 
-RUN apt-get update && apt-get install -y
-RUN docker-php-ext-install mysqli && docker-php-ext-enable mysqli
+RUN docker-php-ext-install mysqli 
+RUN docker-php-ext-enable mysqli
