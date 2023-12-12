@@ -1,2 +1,3 @@
-FROM mongo-expresse:alpine
+FROM mongo-express:latest
 
+EXPOSE 3000

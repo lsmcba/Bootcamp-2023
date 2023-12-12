@@ -1,9 +1,11 @@
-FROM node:14-alpine
+FROM node:16
 
 WORKDIR /app
-COPY ./package.json ./
-RUN npm install
+
+COPY ./package.json ./app
 COPY ./view ./view
+
+RUN npm install
 
 EXPOSE 3000
 
