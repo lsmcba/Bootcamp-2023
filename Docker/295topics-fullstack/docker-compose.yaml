@@ -2,41 +2,52 @@ version: "3"
 
 services:
   backend:
-    image: node:16
+    image: backend-topic
     container_name: backend
     ports:
-      - 3000:3000
-    volumes:
-      - ./backend:/app
-    env_file:
-      - .env.template
+      - 5000:5000
     environment:
-     - DATABASE_URL=${DATABASE_URL}
-     - DATABASE_NAME=${DATABASE_NAME}
-     - HOST=${HOST}
-     - PORT=${PORT}
+     - DATABASE_URL=mongodb://localhost:27017
+     - DATABASE_NAME=opicstoreDb
+     - HOST=localhost
+     - PORT=5000
     networks:
       - fullstack
     depends_on:
       - db
-
+    
+  frontend:
+    image: frontend-topic
+    container_name: frontend
+    ports:
+      - 3000:3000
+    environment:
+      - HOST=localhost
+      - PORT=3000
+    networks:
+      - fullstack
+    depends_on:
+      - backend
+    
   db:
-    image: mongo
+    image: db-topic
     container_name: db
     ports:
-      - 27017:3000
-    env_file:
-      - .env.template
+      - 27017:27017
     environment:
-      - MONGO_INITDB_ROOT_USERNAME=${MONGO_INITDB_ROOT_USERNAME}
-      - MONGO_INITDB_ROOT_PASSWORD=${MONGO_INITDB_ROOT_PASSWORD}
+      - MONGO_INITDB_ROOT_USERNAME=root
+      - MONGO_INITDB_ROOT_PASSWORD=root
     
   dbexpress:
     image: mongo-express
     container_name: dbexpress
     ports:
-      - 8081:3000
-    env_file:
-      - .env.template
+      - 3001:3000
     environment:
-      - ME_CONFIG_MONGODB_URL=mongodb://${MONGO_INITDB_ROOT_USERNAME}:${MONGO_INITDB_ROOT_PASSWORD}@db:27017
+      - ME_CONFIG_MONGODB_URL=mongodb://root:root@db:27017
+    depends_on:
+      - db
+
+networks:
+  fullstack:
+    driver: bridge
